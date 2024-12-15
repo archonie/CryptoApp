@@ -14,7 +14,8 @@ struct CoinModel: Identifiable, Codable {
     let currentPrice: Double
     let marketCap, marketCapRank, fullyDilutedValuation: Double?
     let totalVolume, high24H, low24H: Double?
-    let priceChange24H, priceChangePercentage24H: Double?
+    let priceChange24H: Double?
+    let priceChangePercentage24H: Double?
     let marketCapChange24H: Double?
     let marketCapChangePercentage24H: Double?
     let circulatingSupply, totalSupply, maxSupply, ath: Double?
@@ -38,8 +39,8 @@ struct CoinModel: Identifiable, Codable {
     var rank: Int {
         return Int(marketCapRank ?? 0)
     }
+    
 }
-
 // MARK: - SparklineIn7D
 struct SparklineIn7D: Codable {
     let price: [Double]?
