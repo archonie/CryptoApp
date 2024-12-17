@@ -162,7 +162,6 @@ extension PortfolioView {
                 showCheckmark.toggle()
             }
         }
-            
     }
     
     private func removeSelectedCoin() {

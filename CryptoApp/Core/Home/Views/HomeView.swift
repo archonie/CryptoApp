@@ -89,6 +89,9 @@ extension HomeView {
                     .listRowInsets(.init(top: 10, leading: 0, bottom: 10, trailing: 10))
             }
         }
+        .refreshable {
+            vm.reloadData()
+        }
         .listStyle(PlainListStyle())
     }
     private var portfolioCoinsList: some View {
