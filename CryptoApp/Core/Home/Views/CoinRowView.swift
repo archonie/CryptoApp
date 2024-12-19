@@ -21,6 +21,10 @@ struct CoinRowView: View {
             rightColumn
         }
         .font(.subheadline)
+        .background(
+            //helps to click on the spacer
+            Color.theme.background.opacity(0.001)
+        )
     }
 }
 
