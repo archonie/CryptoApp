@@ -36,19 +36,29 @@ struct DetailView: View {
     }
     
     var body: some View {
-        ScrollView {
-            VStack(spacing: 20) {
-                Text("")
-                    .frame(height: 150)
-                overviewTitle
-                Divider()
-                overviewGrid
-                additionalTitle
-                Divider()
-                additionalGrid
+        ScrollView(showsIndicators: false) {
+            VStack {
+                ChartView(coin: vm.coin)
+                    .padding(.vertical)
+                VStack(spacing: 20) {
+                    overviewTitle
+                    Divider()
+                    overviewGrid
+                    additionalTitle
+                    Divider()
+                    additionalGrid
+                }
+                .padding()
+            }
+            
+        }
+        
+        .navigationTitle(vm.coin.name)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                navigationBarTrailingItem
             }
         }
-        .navigationTitle(vm.coin.name)
     }
 }
 
@@ -65,7 +75,7 @@ extension DetailView {
             .font(.title)
             .bold()
             .foregroundColor(Color.theme.accent)
-            .frame(maxWidth: .infinity, alignment: .leading)
+            .frame(maxWidth: .infinity, alignment: .trailing)
     }
     
     private var additionalTitle: some View {
@@ -73,11 +83,11 @@ extension DetailView {
             .font(.title)
             .bold()
             .foregroundColor(Color.theme.accent)
-            .frame(maxWidth: .infinity, alignment: .leading)
+            .frame(maxWidth: .infinity, alignment: .trailing)
     }
     
     private var overviewGrid: some View {
-        LazyVGrid(columns: columns, alignment: .leading, spacing: spacing, pinnedViews: []) {
+        LazyVGrid(columns: columns, alignment: .trailing, spacing: spacing, pinnedViews: []) {
             ForEach(vm.overviewStatistics) { stat in
                 StatisticView(stat: stat)
             }
@@ -85,10 +95,20 @@ extension DetailView {
     }
     
     private var additionalGrid: some View {
-        LazyVGrid(columns: columns, alignment: .leading, spacing: spacing, pinnedViews: []) {
+        LazyVGrid(columns: columns, alignment: .trailing, spacing: spacing, pinnedViews: []) {
             ForEach(vm.additionalStatistics) { stat in
                 StatisticView(stat: stat)
             }
+        }
+    }
+    
+    private var navigationBarTrailingItem: some View {
+        HStack {
+            Text(vm.coin.symbol.uppercased())
+                .font(.headline)
+                .foregroundColor(Color.theme.secondaryText)
+            CoinImageView(coin: vm.coin)
+                .frame(width: 25, height: 25)
         }
     }
 }
