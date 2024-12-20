@@ -25,6 +25,8 @@ struct DetailLoadingView: View {
 struct DetailView: View {
 
     @StateObject private var vm: DetailViewModel
+    @State private var showFullDescription: Bool = false
+    
     private let columns: [GridItem] = [
         GridItem(.flexible()),
         GridItem(.flexible()),
@@ -43,10 +45,12 @@ struct DetailView: View {
                 VStack(spacing: 20) {
                     overviewTitle
                     Divider()
+                    descriptionSection
                     overviewGrid
                     additionalTitle
                     Divider()
                     additionalGrid
+                    websiteSection
                 }
                 .padding()
             }
@@ -84,6 +88,50 @@ extension DetailView {
             .bold()
             .foregroundColor(Color.theme.accent)
             .frame(maxWidth: .infinity, alignment: .trailing)
+    }
+    
+    private var descriptionSection: some View {
+        ZStack {
+            if let coinDescription = vm.coinDescription, !coinDescription.isEmpty {
+                VStack(alignment: .trailing) {
+                    Text(coinDescription)
+                        .lineLimit(showFullDescription ? nil : 3)
+                        .font(.callout)
+                        .foregroundColor(Color.theme.secondaryText)
+                    Button(
+                        action: {
+                            withAnimation(.easeOut) {
+                                showFullDescription.toggle()
+                            }
+                        }, label: {
+                            Text(showFullDescription ? "Read Less..." : "Read More...")
+                                .accentColor(Color.blue)
+                                .font(.caption)
+                                .fontWeight(.bold)
+                                .padding(.vertical, 4)
+                        }
+                    )
+                }
+                .frame(maxWidth: .infinity, alignment: .trailing)
+            }
+        }
+    }
+    
+    private var websiteSection: some View {
+        VStack(alignment: .trailing, spacing: 10) {
+            if let websiteURL = vm.websiteURL, !websiteURL.isEmpty, let url = URL(string: websiteURL) {
+                Link("Official Website", destination: url)
+                    .font(.callout)
+                    .fontWeight(.bold)
+            }
+            if let redditString = vm.redditURL, !redditString.isEmpty, let url = URL(string: redditString) {
+                Link("/r/\(vm.coin.name)", destination: url)
+                    
+            }
+        }
+        .accentColor(Color.blue)
+        .frame(maxWidth: .infinity, alignment: .trailing)
+        .font(.headline)
     }
     
     private var overviewGrid: some View {
