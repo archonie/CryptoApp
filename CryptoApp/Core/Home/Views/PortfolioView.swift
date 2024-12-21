@@ -24,11 +24,19 @@ struct PortfolioView: View {
                     coinLogoList
                     if selectedCoin != nil {
                         portfolioInputSection
+                    } else if vm.searchText.isEmpty{
+                        Text("Type a coin name or symbol to add to your portfolio.")
+                            .foregroundColor(Color.theme.accent)
+                            .font(.callout)
+                            .fontWeight(.medium)
+                            .multilineTextAlignment(.center)
+                            .padding(50)
                     }
                 }
                 .animation(.none)
                 .font(.headline)
             }
+            .background(Color.theme.background.ignoresSafeArea())
             .navigationTitle("Edit Portfolio")
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -45,7 +53,6 @@ struct PortfolioView: View {
                     removeSelectedCoin()
                 } 
             })
-            .background(Color.theme.background)
         }
     }
 }
