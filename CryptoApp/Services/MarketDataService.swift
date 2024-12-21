@@ -25,6 +25,7 @@ class MarketDataService {
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         marketDataSubscription = NetworkingManager.download(url: url)
             .decode(type: GlobalData.self, decoder: decoder)
+            .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: NetworkingManager.handleCompletion, receiveValue: { [weak self] returnedData in
                 self?.marketData = returnedData.data
                 self?.marketDataSubscription?.cancel()
